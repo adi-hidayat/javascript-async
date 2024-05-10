@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Promise Method54</title>
+</head>
+<body>
+Promise Method <br>
+• Promise memiliki tiga method yang bisa kita gunakan <br>
+• then() untuk mendapatkan atau mengubah data ketika Promise sukses <br>
+• catch() untuk mendapatkan data error ketika Promise gagal <br>
+• finally() akan dieksekusi ketika teriadi sukses atau gagal pada Promise <br>
+• https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global Objects/Promise#instance methods <br>
+
+<br>
+<br>
+    Promise juga memiliki static method : <br>
+    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise <br>
+    • Promise juga memiliki beberapa static method <br>
+    • Promise.all() digunakan untuk mengeksekusi beberapa promise sekaligus dan menunggu semua
+    hasil promise nya <br>
+    • Promise.any() digunakan untuk mengeksekusi beberapa promise sekaligus dan mengambil hasil
+    promise paling cepat <br>
+    • Dan lain-lain <br>
+<br>
+<br>
+<div class="posts">
+    <div class="single-post">
+        <h1 id="post-title"></h1>
+        <p id="post-body"></p>
+    </div>
+</div>
+</body>
+<script>
+    function getPosts(postId) {
+        return new Promise(function (resolve, reject) {
+            // lalu berikan async proses
+            const ajax = new XMLHttpRequest();
+            let url = 'https://jsonplaceholder.typicode.com/posts';
+            if (Number.isInteger(postId)) {
+                url = `https://jsonplaceholder.typicode.com/posts/${postId}`;
+            }
+
+            ajax.open('GET', url);
+            ajax.onload =  function() {
+                if (ajax.status === 200) {
+                    resolve(ajax.responseText)
+                } else {
+                    reject(Error(`Error Get POSTS with response : ${ajax.responseText}`))
+                }
+            }
+
+            ajax.onerror = function() {
+                reject(Error('Network Error'));
+            }
+
+            ajax.send();
+        });
+    }
+
+    const singlePost = getPosts(1);
+    // contoh operasi promise method
+    singlePost
+        .then((response) => {
+            return JSON.parse(response)
+        }).then((post) => {
+            document.getElementById('post-title').textContent = post.title;
+            document.getElementById('post-body').textContent = post.body;
+        }).catch((error) => {
+            document.getElementById('post-title').textContent = error
+        }).finally(() => {
+            console.log('method ini akan selalu dijalankan baik sukses atau gagal (catch)');
+        })
+
+    // Promise All : memudahkan kita untuk memanggil beberapa promise sekaligus
+    const postResponses = Promise.all([
+        getPosts(1),
+        getPosts(2),
+        getPosts(3)
+    ]);
+
+    postResponses.then((posts) => {
+        console.info(posts);
+    });
+
+    // Promise any atau race : mengembalikan 1 data yang dengan proses yang tercepat
+    // any : mengignore error dan tetap mengembalikan 1 data (jika ada), hal ini sama dengan Promise All
+    // race : mengembalikan error jika salah satu promise terdapat error / rejected
+    const postResponseAny = Promise.any([
+        getPosts(1),
+        getPosts(2),
+        getPosts(3)
+    ]);
+
+    postResponseAny.then((posts) => {
+        console.info(posts);
+    });
+</script>
+</html>

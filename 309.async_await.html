@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Async Await</title>
+</head>
+<body>
+Async Await <br>
+• Async Await adalah fitur di JavaScript yang digunakan untuk mempermudah proses pembuatan
+kode Promise <br>
+• Dengan menggunakan Async Await, kita bisa membuat kode Asynchronous dengan gaya
+Synchronous <br><br>
+
+Async
+• Async digunakan untuk menandakan bahwa Function tersebut adalah Async, dan mengembalikan
+Promise <br>
+• Dengan menggunakan Async, kita tidak perlu membuat Promise secara manual lagi <br><br>
+
+Await <br>
+• Await digunakan untuk mendapatkan value hasil dari Promise <br>
+• Await hanya bisa digunakan dalam Async Function <br><br>
+
+Error Handler di Async Await <br>
+• Saat kita menggunakan Promise, kita bisa menggunakan catch() ketika terjadi error <br>
+• Bagaimana pada kasus Async Await? <br>
+• Pada Async Await, kita bisa menggunakan try catch untuk melakukan penanganan error <br>
+
+</body>
+
+<script>
+    // Async
+    // contoh promise manual
+    function getNamePromise() {
+        return new Promise(function(resolve, reject) {
+            resolve("Hello Adi from Promise");
+        })
+    }
+
+    getNamePromise().then((name) => {
+       console.info(name);
+    });
+
+    // contoh promise dengan asynce
+    // jika terdapat async maka otomatis dibungkus dalam sebuah promise
+    async function getNameAsync() {
+        return "Hello Adi from Async";
+    }
+
+    getNameAsync().then((name) => {
+       console.info(name)
+    });
+
+    // Await
+    function getPosts(postId)
+    {
+        let url = `https://jsonplaceholder.typicode.com/posts`;
+        if (Number.isInteger(postId)) {
+            url = `https://jsonplaceholder.typicode.com/posts/${postId}`;
+        }
+
+        return fetch(url, {
+            method :"GET"
+        }).then((response) => response.json());
+    }
+
+    // Promise manual (tidak menggunakan await)
+    // dengan menggunakan promise manual seperti ini, kode akan lebih rumit dan panjang
+    function getSinglePostPromise() {
+        return new Promise((resolve, reject) => {
+            getPosts(1)
+                    .then((post) => resolve(post))
+                    .catch((error) => resolve('Error while fetching data'));
+        });
+    }
+
+    getSinglePostPromise().then((post) => console.info(post));
+
+    // Promise dengan menggunakan Await
+    // Promise<Object Post>
+    async function getSinglePost() {
+        return await getPosts(1);
+    }
+
+    getSinglePost().then((post) => {
+        console.info(post)
+    });
+
+    // Error Handler
+    async function getAllPosts() {
+        try {
+            const posts = await getPosts();
+            return posts;
+        } catch (e) {
+            return "Error";
+        } finally {
+            return "Executed!"
+        }
+    }
+
+    getAllPosts().then((posts) => {
+        console.info(posts);
+    })
+
+
+</script>
+
+</html>

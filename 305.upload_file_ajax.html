@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload File Dengan AJAX</title>
+</head>
+<body>
+Upload File dengan AJAX <br>
+• Selain menggunakan JSON, Query Param, Form, kadang kita butuh mengirim file ke Server <br>
+• Untuk mengirim file ke Server, kita perlu menggunakan object Form Data, lalu kita perlu
+menambahkan object File ke dalam FormData tersebut <br>
+
+
+https://developer.mozilla.org/en-US/docs/Web/API/FormData <br>
+https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file <br>
+https://developer.mozilla.org/en-US/docs/Web/API/File <br>
+https://developer.mozilla.org/en-US/docs/Web/API/FileList <br>
+</body>
+<script>
+    function doSendData()
+    {
+        const ajax = new XMLHttpRequest();
+        ajax.open('POST', 'https://eoyy53cznsj6i35.m.pipedream.net');
+        ajax.onload = function() {
+            console.log(ajax.responseText);
+        }
+
+        ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        const form = new FormData();
+        form.append('firstname', 'John');
+        form.append('lastname', 'Doe');
+        form.append('file', document.getElementById('file').files.item(0))
+        ajax.send(form);
+    }
+
+    document.getElementById('button-request-register').onclick = doSendData;
+</script>
+</html>

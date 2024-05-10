@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajax</title>
+</head>
+<body>
+    <h2>Apa itu ajax?</h2>
+    - AJAX singkatan dari Asynchronous JavaScript and XML <br>
+    - AJAX biasanya digunakan untuk mengambil atau mengirim data ke URL lain <br>
+    - Untuk membuat AJAX, kita bisa menggunakan class XMLHttpRequest <br>
+    https://developer.mozilla.org/en-US/docs/Web/AP|/XMLHttpRequest
+</body>
+<script>
+    const ajax = new XMLHttpRequest()
+
+    ajax.open('GET', 'https://reqres.in/api/users?page=2')
+
+    ajax.send()
+</script>
+</html>

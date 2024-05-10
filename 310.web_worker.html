@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Web Worker</title>
+</head>
+<body>
+Thread di JavaScript <br>
+• JavaScript adalah Single Thread (Single Proses), artinya walaupun proses yang kita buat adalah
+Async, tapi tetap akan dijalankan dalam Thread (Proses) yang sama. <br>
+• Kemampuan satu Thread dalam mengelola beberapa pekerjaan, dinamakan Concurrent. <br>
+• Kemampuan menjalankan beberapa Thread untuk mengelola satu atau lebih pekerjaan, dinamakan
+Paralel <br>
+• Dan untuk membuat proses secara Paralel, kita bisa menggunakan Web Worker <br> <br>
+<button id="showNumber">Show Number (Single Thread)</button> <br><br>
+
+Web Worker <br>
+• Web Worker adalah kemampuan yang untuk menjalankan proses di Thread yang berbeda
+dibanding Main Thread. <br>
+Keuntungan menggunakan Web Worker adalah. iika terdapat proses vang membutuhkan waktu
+lama, Web kita tidak akan Freeze, karena proses tersebut bisa kita jalankan di Thread yang
+berbeda dari Main Thread (vang biasa digunakan oleh UI) <br>
+• https://developer.mozilla.org/en-US/docs/Web/API/Web Workers API <br> <br>
+
+Worker <br>
+• Untuk menggunakan Web Worker API, kita bisa membuat object Worker <br>
+• https://developer.mozilla.org/en-US/docs/Web/API/Worker <br>
+• Saat kita membuat object Worker, Worker tidak akan secara otomatis berjalan, melainkan kita
+perlu member perintah dengan cara mengirim pesan <br>
+• Untuk mengirim pesan, kita bisa gunakan method postMessage() <br>
+• Sedangkan untuk menerima balasan dari worker, kita bisa menggunakan event listener onmessage <br>
+• Data yang diterima adalah object MessageEvent <br>
+• https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent <br>
+
+<button id="webWorkerButton">Web Worker (Multi Thread)</button> <br><br>
+</body>
+
+<script>
+
+    function showNumber(n) {
+        for (let i = 0; i < n; i++) {
+            console.info(i);
+        }
+    }
+
+
+
+    // contoh single proccess yang akan lama untuk selesai
+    document.getElementById('showNumber').onclick = () => {
+        console.info('Show number started');
+        showNumber(100000);
+        console.info('Show number done');
+    }
+
+    // dengan web worker kita bisa menjalankan proses di thread yang lain sehingga tidak harus menunggu proses lain
+    // selesai
+    const worker = new Worker('worker.js');
+    worker.addEventListener("message", (message) => {
+        console.info(message.data);
+    });
+
+    document.getElementById('webWorkerButton').onclick = () => {
+        // untuk cek berjalan atau tidak, bisa klik task manager
+        // lalu cek untuk tab google chrome apakah ada di task manager dengan task : Dedicated Worker
+        // sebanyak berapa kali kita memanggil class Worker()
+
+        worker.postMessage(100000);
+    }
+
+</script>
+</html>

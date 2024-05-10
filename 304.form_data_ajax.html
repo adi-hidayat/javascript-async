@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Form Data dengan AJAX</title>
+</head>
+<body>
+Form Data dengan AJAX <br>
+• Selain JSON dan Query Param, kadang kita juga mengirim Form Data dari Client ke Server
+menggunakan AJAX <br>
+• Untuk kasus ini kita tetap bisa menggunakan URLSearchParam <br>
+• Namun obiect URLSearchParam nya kita kirim di method send() <br>
+<button type="button" id="button-request-register">Send Data</button>
+</body>
+<script>
+    function doSendData()
+    {
+        const ajax = new XMLHttpRequest();
+        ajax.open('POST', 'https://eoyy53cznsj6i35.m.pipedream.net');
+        ajax.onload = function() {
+            console.log(ajax.responseText);
+        }
+
+        ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        const form = new URLSearchParams();
+        form.append('firstname', 'John');
+        form.append('lastname', 'Doe');
+        ajax.send(form);
+    }
+
+    document.getElementById('button-request-register').onclick = doSendData;
+</script>
+</html>

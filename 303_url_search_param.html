@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+URL Search Param <br>
+• Selain format JSON, kadang saat mengirim data menggunakan AJAX, kita hanya mengirim dalam
+bentuk Query Parameter <br>
+• Pada kasus ini, kita bisa saja mengubah url nya dengan menambahkan Query Parameter, namun
+ada cara yang lebih mudah, yaitu menggunakan object URLSearchParam <br>
+• Kita bisa memanfaatkan obiect URLSearchParam sebelum membuat URL <br>
+• https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams <br>
+</body>
+<script>
+    function doSearch()
+    {
+        const ajax = new XMLHttpRequest();
+        const params = new URLSearchParams();
+        params.append('search', 'mobil');
+
+        ajax.open('get', 'https://google.com?');
+        ajax.onload = function() {
+            console.log(ajax.responseText);
+        }
+
+        ajax.setRequestHeader('Content-Type', 'application/json');
+        ajax.send(params);
+    }
+
+    document.getElementById('button-request-register').onclick = doSearch();
+</script>
+</html>

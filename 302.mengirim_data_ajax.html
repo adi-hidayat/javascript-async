@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mengirim data dengan AJAX</title>
+</head>
+<style>
+    .form-request {
+        background-color: aliceblue;
+        margin-top: 25px;
+        width: 25%;
+    }
+
+    .form-group {
+        padding: 10px;
+    }
+</style>
+<body>
+Mengirim Data dengan AJAX <br>
+• Saat kita menggunakan AJAX, biasanya bukan hanya untuk mengambil data dari Server <br>
+• Kadang kita juga ingin mengirim data dari Client ke Server, misalnya kita membaca semua data di
+Web Form, lalu mengirimkan ke Server menggunakan AJAX <br>
+• Untuk melakukan in, kita bisa menambahkan parameter data yang akan kita kirim pada method
+send() milik XMLHttpRequest <br>
+https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/send <br>
+
+<div class="form-request">
+    <form id="form-request-user">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password">
+        </div>
+        <div class="form-group">
+            <button type="button" id="button-request-register">Register</button>
+        </div>
+    </form>
+</div>
+</body>
+<script>
+    function doRegister()
+    {
+        const ajax = new XMLHttpRequest();
+        ajax.open('POST', 'https://eoyy53cznsj6i35.m.pipedream.net');
+        ajax.onload = function() {
+            if (ajax.status == 200) {
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+
+                alert("Data terkirim");
+            }
+        }
+
+        ajax.setRequestHeader('Content-Type', 'application/json');
+        ajax.send(JSON.stringify({
+            username : document.getElementById('username').value,
+            password : document.getElementById('password').value
+        }));
+    }
+
+    document.getElementById('button-request-register').onclick = doRegister;
+</script>
+</html>

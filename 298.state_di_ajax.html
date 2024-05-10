@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>State di AJAX</title>
+</head>
+<body>
+State di AJAX <br>
+• AJAX memiliki tahapan state, dimana kita bisa mendapatkan banyak sekali state di Ajax
+menggunakan property readyState <br>
+• Property readyState mengembalikan nilai number, dimana tia number merupakan representasi
+dari statenya <br> <br>
+
+0: request not initialized / request belum dipanggil (call / open()) <br>
+1: server connection established / request telah di panggil open() <br>
+2: request received / request telah dipanggil dan response headers dan status telah diterima send() <br>
+3: processing request / proses download response dari server <br>
+4: request finished and response is ready / operasi sudah selesai <br>
+<br>
+<br>
+
+Ready State Change Event <br>
+• Jika kita ingin mendengarkan perubahan yang terjadi pada state, kita bisa menggunakan event
+readystatechange <br>
+• https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/onreadystatechange <br>
+</body>
+
+<script>
+    let ajax = new XMLHttpRequest();
+    ajax.onreadystatechange = function () {
+        console.info(`Ready State Change ${ajax.readyState}`)
+    }
+    ajax.open('GET', 'https://reqres.in/api/users?page=2')
+    ajax.addEventListener('load', function(){
+        console.log(ajax.status);
+        const json = JSON.parse(ajax.responseText);
+        console.log(json)
+    });
+    ajax.send()
+</script>
+</html>

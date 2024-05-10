@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Promise</title>
+</head>
+<body>
+Apa itu Promise? <br>
+• Promise merupakan proxy untuk sebuah nilai di masa depan (Future) yang belum diketahui saat
+pembuatan Promise tersebut. <br>
+• Biasa Promise digunakan sebagai proxy untuk proses Async. <br>
+• Penggunaan Promise sangat mudah, dan lebih mirip dengan kode Synchronous. <br>
+• https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise <br>
+<br>
+Penjelasan sederhana : Promise diibaratkan sebuah janji untuk mengambil data yang gak tau datanya kapan akan
+didapatkan
+<br>
+Promis State <br>
+------------------------------------------ <br>
+State : Pending   | fulfilled | rejected | <br>
+------------------------------------------ <br>
+Result: undefined | value     | error    | <br>
+------------------------------------------ <br>
+
+Pada saat pertama dibuat state Promise adalah pending, dan nantinya akan menghasilkan salah satu
+state yaitu fulfilled (data tersedia) atau rejected (batal / error) <br>
+
+Fitur Promise sendiri dibuat untuk mengatasi permasalahan dengan Callback, yaitu Callback Hell <br>
+</body>
+<script>
+    function getProduct() {
+        return new Promise(function (resolve, reject) {
+            // lalu berikan async proses
+            const ajax = new XMLHttpRequest();
+            ajax.open('GET', 'https://api.restful-api.dev/objects');
+            ajax.onload =  function() {
+                if (ajax.status === 200) {
+                    resolve(ajax.responseText)
+                } else {
+                    reject(Error(`Error Get Product with response : ${ajax.responseText}`))
+                }
+            }
+
+            ajax.onerror = function() {
+                reject(Error('Network Error'));
+            }
+
+            ajax.send();
+        });
+    }
+
+    console.info(getProduct());
+</script>
+</html>
